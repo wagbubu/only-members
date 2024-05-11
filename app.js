@@ -3,33 +3,47 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+require('dotenv').config();
 var app = express();
 
 //passport
 var passport = require('passport');
-var LocalStrategy = require('passport-local');
 var session = require('express-session');
-const MongoStore = require('connect-mongo')(session);
+//MONGODB setup
+const mongoose = require('mongoose');
+const mongoDb = process.env.DB_URL;
+const MongoStore = require('connect-mongo');
 
-const strategy = new LocalStrategy(function verify(
-  username,
-  password,
-  done
-) {});
+mongoose.set('strictQuery', false);
 
+main().catch((err) => console.log(err));
+
+async function main() {
+  await mongoose.connect(mongoDb);
+}
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//Initialize All things needed for passportJS
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
