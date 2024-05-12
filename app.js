@@ -44,6 +44,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+require('./config/passport');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
