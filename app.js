@@ -5,9 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const expressLayouts = require('express-ejs-layouts');
 require('dotenv').config();
 var app = express();
 
+app.use(expressLayouts);
 //passport
 var passport = require('passport');
 var session = require('express-session');
