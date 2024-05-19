@@ -15,7 +15,7 @@ var passport = require('passport');
 var session = require('express-session');
 //MONGODB setup
 const mongoose = require('mongoose');
-const mongoDb = process.env.DB_URL;
+const mongoDb = process.env.PROD_DB_URL;
 const MongoStore = require('connect-mongo');
 
 mongoose.set('strictQuery', false);
@@ -39,9 +39,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
+    maxAge: new Date(Date.now() + 3600000), //1 Hour
+    expires: new Date(Date.now() + 3600000), //1 Hour
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+    store: MongoStore.create({ mongoUrl: process.env.PROD_DB_URL }),
   })
 );
 app.use(passport.initialize());
