@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   isAdmin: { type: Boolean, required: true, default: false },
   membership_status: {
     type: String,
-    enum: ['basic', 'odinite', 'empployer'],
+    enum: ['basic', 'odinite', 'headhunter'],
     required: true,
     default: 'basic',
   },

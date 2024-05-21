@@ -39,11 +39,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    maxAge: new Date(Date.now() + 3600000), //1 Hour
-    expires: new Date(Date.now() + 3600000), //1 Hour
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.PROD_DB_URL }),
+    cookie: {
+      maxAge: new Date(Date.now() + 60000), //1 minute
+    },
   })
 );
 app.use(passport.initialize());
