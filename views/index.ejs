@@ -1,23 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title></title>
-  </head>
-  <body>
-    <% if (user) {%>
-    <h1>WELCOME BACK <%= user.username %></h1>
-    <a href="/log-out">LOG OUT</a>
-    <% } else { %>
-    <h1>please log in</h1>
-    <form action="/log-in" method="POST">
-      <label for="username">Username</label>
-      <input name="username" placeholder="username" type="text" />
-      <label for="password">Password</label>
-      <input name="password" type="password" />
-      <button>Log In</button>
-    </form>
-    <p>Don't have an account? <a href="/sign-up">create one!</a></p>
-    <%}%>
-  </body>
-</html>
+<main>
+  <% if(typeof user !== 'undefined') { %>
+  <h1>WELCOME BACK <%= user.username %></h1>
+  <a href="/log-out">LOG OUT</a>
+  <% } else { %>
+  <h1>HOMEPAGE</h1>
+  <hr />
+  <h3>Limited display of messages here.. login to see more</h3>
+  <p><a href="/log-in">Login</a></p>
+  <% } %>
+</main>

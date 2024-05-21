@@ -12,7 +12,6 @@ exports.user_create_get = function (req, res, next) {
   res.render('sign-up');
 };
 
-
 exports.user_create_post = [
   //validate incoming data
   body('username', 'username must contain atleast 3 characters')
@@ -66,6 +65,10 @@ exports.user_create_post = [
     }
   }),
 ];
+
+exports.user_login_get = asyncHandler(async (req, res, next) => {
+  res.render('log-in', { title: 'Log in' });
+});
 
 exports.user_login_post = passport.authenticate('local', {
   successRedirect: '/',
